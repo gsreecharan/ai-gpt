@@ -5,6 +5,7 @@ import { MyContext } from "./MyContext.jsx";
 import { CircleLoader } from "react-spinners";
 
 function ChatWindow() {
+  const API_URL = import.meta.env.VITE_BACKEND_URL || "https://ai-gpt-backend.onrender.com";
   const {
     prompt,
     setPrompt,
@@ -42,7 +43,7 @@ function ChatWindow() {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/api/chat", options);
+      const response = await fetch(`${API_URL}/api/chat`, options);
       const res = await response.json();
 
       if (res && res.reply) {
@@ -53,7 +54,7 @@ function ChatWindow() {
           { role: "assistant", content: res.reply },
         ]);
 
-        const threadList = await fetch("http://localhost:8080/api/thread");
+        const threadList = await fetch(`${API_URL}/api/thread`);
         const listData = await threadList.json();
         if (Array.isArray(listData)) {
           setAllThreads(
